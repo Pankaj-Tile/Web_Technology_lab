@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Information</title>
+    <link rel="stylesheet" type="text/css" href="employees.css">
+</head>
+<body>
+    <h1>Employee Information</h1>
+    <div id="content">
+        <xsl:apply-templates select="document('employees.xml')/employees"/>
+    </div>
+
+    <script>
+        var xsltProcessor = new XSLTProcessor();
+        var myXMLHTTPRequest = new XMLHttpRequest();
+        myXMLHTTPRequest.open("GET", "employees.xsl", false);
+        myXMLHTTPRequest.send(null);
+        xsltProcessor.importStylesheet(myXMLHTTPRequest.responseXML);
+        var myXMLDocument = new DOMParser().parseFromString(document.body.innerHTML, "text/xml");
+        var fragment = xsltProcessor.transformToFragment(myXMLDocument, document);
+        document.getElementById('content').appendChild(fragment);
+    </script>
+</body>
+</html>
